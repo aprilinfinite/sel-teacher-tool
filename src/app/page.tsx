@@ -58,9 +58,9 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="mt-8 inline-flex items-center gap-3 rounded-[28px] border border-[#e5e2da] bg-white px-5 py-4 shadow-sm">
-              <span className="text-4xl font-bold text-[#3b3b3b]">51+</span>
-              <div className="space-y-1 text-sm leading-tight text-[#8a8a8a]">
+            <div className="mt-6 inline-flex items-center gap-1.5 rounded-[20px] border border-[#e5e2da] bg-white/50 px-3 py-2.5 shadow-sm">
+              <span className="text-2xl font-bold text-[#3b3b3b]">50+</span>
+              <div className="space-y-0.5 text-sm leading-tight text-[#8a8a8a]">
                 <p className="font-semibold text-[#3b3b3b]">Free Resources</p>
                 <p>and growing</p>
               </div>
