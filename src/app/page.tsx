@@ -1,34 +1,18 @@
 'use client';
 
 import { useState } from "react";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const tabs = ["Prevent", "Respond", "Recover", "Teacher Support"];
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Prevent");
+  const pathname = usePathname();
 
   return (
     <main className="min-h-screen bg-[#f8f7f4]">
       <div className="mx-auto max-w-[1280px] px-6 pt-8 pb-20">
-        <header className="sticky top-6 z-50 mb-[4.5rem] flex items-center justify-between rounded-full border border-[#d7cfa8] bg-[#f4f0e5] px-6 py-2 text-sm text-[#5c6c57] shadow-sm backdrop-blur-sm">
-          <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-[#96a57f] text-sm font-semibold text-white">S</div>
-            <span className="text-base font-semibold text-[#3d4f3c]">SEL Teacher Tools</span>
-          </div>
-
-          <nav className="flex items-center gap-8 text-sm text-[#5c6c57] py-0">
-            <a href="#" className="font-medium no-underline text-[#6a7a68] hover:no-underline hover:text-[#3b4b36]">Home</a>
-            <a href="#" className="font-medium no-underline text-[#6a7a68] hover:no-underline hover:text-[#3b4b36]">Prevent</a>
-            <a href="#" className="font-medium no-underline text-[#6a7a68] hover:no-underline hover:text-[#3b4b36]">Respond</a>
-            <a href="#" className="font-medium no-underline text-[#6a7a68] hover:no-underline hover:text-[#3b4b36]">Recover</a>
-            <a href="#" className="flex items-center gap-1 font-medium no-underline text-[#6a7a68] hover:no-underline hover:text-[#3b4b36]">
-              Learn the Signs
-              <span className="text-xs">▾</span>
-            </a>
-            <a href="#" className="font-semibold no-underline text-[#3b4b36] hover:no-underline hover:text-[#2e392b]">Teacher Support</a>
-          </nav>
-        </header>
-
         <section className="hero-layout grid grid-cols-2 gap-12 items-start pt-4">
           <div className="hero-left min-w-0 max-w-[700px]">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#e5e2da] bg-[#e8ede4] px-4 py-2 text-sm font-medium text-[#3b3b3b] shadow-sm">
@@ -83,53 +67,64 @@ export default function Home() {
                   WHAT DO YOU NEED RIGHT NOW?
                 </p>
 
-                <div className="mt-5 space-y-3">
+                <div className="mt-5 flex flex-col gap-3">
+                  <Link href="/prevent" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl leading-none">🌱</span>
+                        <div>
+                          <p className="font-semibold text-[#3b3b3b]">Prevent</p>
+                          <p className="text-sm text-[#8a8a8a]">Build calm before things escalate</p>
+                        </div>
+                      </div>
+                      <span className="text-[#8a8a8a]">→</span>
+                    </div>
+                  </Link>
                   <button type="button" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
                     <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <p className="font-semibold text-[#3b3b3b]">🌱 Prevent</p>
-                        <p className="text-sm text-[#8a8a8a]">Build calm before things escalate</p>
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl leading-none">🫧</span>
+                        <div>
+                          <p className="font-semibold text-[#3b3b3b]">Respond</p>
+                          <p className="text-sm text-[#8a8a8a]">De-escalate in the moment</p>
+                        </div>
                       </div>
                       <span className="text-[#8a8a8a]">→</span>
                     </div>
                   </button>
                   <button type="button" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
                     <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <p className="font-semibold text-[#3b3b3b]">🫧 Respond</p>
-                        <p className="text-sm text-[#8a8a8a]">De-escalate in the moment</p>
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl leading-none">🔄</span>
+                        <div>
+                          <p className="font-semibold text-[#3b3b3b]">Recover</p>
+                          <p className="text-sm text-[#8a8a8a]">Repair after a hard moment</p>
+                        </div>
                       </div>
                       <span className="text-[#8a8a8a]">→</span>
                     </div>
                   </button>
                   <button type="button" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
                     <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <p className="font-semibold text-[#3b3b3b]">🔄 Recover</p>
-                        <p className="text-sm text-[#8a8a8a]">Repair after a hard moment</p>
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl leading-none">💛</span>
+                        <div>
+                          <p className="font-semibold text-[#3b3b3b]">Teacher Support</p>
+                          <p className="text-sm text-[#8a8a8a]">Take care of yourself, too</p>
+                        </div>
                       </div>
                       <span className="text-[#8a8a8a]">→</span>
                     </div>
                   </button>
-                  <button type="button" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
+                  <button type="button" className="mt-4 w-full rounded-[28px] border border-[#e5e2da] bg-[#f6f5f2] px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
                     <div className="flex items-center justify-between gap-4">
                       <div>
-                        <p className="font-semibold text-[#3b3b3b]">💛 Teacher Support</p>
-                        <p className="text-sm text-[#8a8a8a]">Take care of yourself, too</p>
+                        <p className="font-semibold text-[#3b3b3b]">✨ Not sure where to start?</p>
+                        <p className="text-sm text-[#8a8a8a]">Take the guided path →</p>
                       </div>
-                      <span className="text-[#8a8a8a]">→</span>
                     </div>
                   </button>
                 </div>
-
-                <button type="button" className="mt-4 w-full rounded-[28px] border border-[#e5e2da] bg-[#f6f5f2] px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="font-semibold text-[#3b3b3b]">✨ Not sure where to start?</p>
-                      <p className="text-sm text-[#8a8a8a]">Take the guided path →</p>
-                    </div>
-                  </div>
-                </button>
               </div>
             </div>
           </div>
