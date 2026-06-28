@@ -2,6 +2,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import Header from '@/components/Header';
+import Providers from '@/components/shared/Providers';
 
 export const metadata: Metadata = {
   title: 'SEL Teacher Tools',
@@ -16,8 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <Header />
-        {children}
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );

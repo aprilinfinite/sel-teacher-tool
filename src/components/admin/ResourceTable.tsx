@@ -1,0 +1,156 @@
+import type { ResourceItem } from '@/services/resources/resourceTypes';
+
+const STATUS_BADGE: Record<string, string> = {
+  draft: 'inline-flex items-center rounded-full bg-[#e8e5dc] px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-[#6d6d6d]',
+  published: 'inline-flex items-center rounded-full bg-[#dff4db] px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-[#2f5f2b]',
+  archived: 'inline-flex items-center rounded-full bg-[#faf3d8] px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-[#8b7a2a]',
+};
+
+type Props = {
+  resources: ResourceItem[];
+  loading: boolean;
+  error: string | null;
+  onRetry: () => void;
+  onEdit?: (id: number) => void;
+  onDelete?: (id: number) => void;
+  onStatusChange?: (id: number, status: string) => void;
+  onFeaturedChange?: (id: number, featured: boolean) => void;
+};
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
+function LoadingSkeleton() {
+  return (
+    <div className="space-y-3">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <div key={i} className="h-14 bg-[#e8e5dc] animate-pulse rounded-lg" />
+      ))}
+    </div>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="text-center py-10">
+      <p className="text-[#a8b4a4] text-lg">No resources yet.</p>
+      <p className="text-[#a8b4a4] text-sm mt-1">Create your first resource to get started.</p>
+    </div>
+  );
+}
+
+function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
+  return (
+    <div className="rounded-xl border border-[#d4b896]/30 bg-[#fef8f2] px-4 py-3 text-sm text-[#8b6a2a]">
+      <p className="font-medium mb-1">Failed to load resources</p>
+      <p>{message}</p>
+      <button type="button" onClick={onRetry} className="mt-2 underline hover:no-underline">
+        Try again
+      </button>
+    </div>
+  );
+}
+
+export default function ResourceTable({
+  resources,
+  loading,
+  error,
+  onRetry,
+  onEdit,
+  onDelete,
+  onStatusChange,
+  onFeaturedChange,
+}: Props) {
+  
+  if (loading) return <LoadingSkeleton />;
+  if (error) return <ErrorState message={error} onRetry={onRetry} />;
+  if (resources.length === 0) return <EmptyState />;
+
+  return (
+    <div className="overflow-x-auto rounded-2xl border border-[#e6e0d0] bg-white shadow-sm">
+      <table className="w-full text-left text-sm">
+        <thead className="bg-[#f4f0e5] text-[#5c6c57] uppercase tracking-[0.1em] text-xs">
+          <tr>
+            <th className="px-5 py-4 font-semibold">Title</th>
+            <th className="px-5 py-4 font-semibold hidden md:table-cell">Category</th>
+            <th className="px-5 py-4 font-semibold hidden lg:table-cell">Format</th>
+            <th className="px-5 py-4 font-semibold hidden lg:table-cell">Downloads</th>
+            <th className="px-5 py-4 font-semibold hidden sm:table-cell">Created</th>
+            <th className="px-5 py-4 font-semibold">Status</th>
+            <th className="px-5 py-4 font-semibold hidden sm:table-cell">Featured</th>
+            {onEdit && <th className="px-5 py-4 font-semibold">Actions</th>}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-[#efe9db]">
+          {resources.map((r) => (
+            <tr key={r.id} className="hover:bg-[#f9f7f2] transition-colors">
+              <td className="px-5 py-4">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-[#3b3b3b]">{r.title}</span>
+                  {r.featured && (
+                    <span className="inline-flex items-center rounded-full bg-[#f7c948]/20 px-2 py-0.5 text-[10px] font-semibold uppercase text-[#a9812c]">
+                      ★
+                    </span>
+                  )}
+                </div>
+              </td>
+              <td className="px-5 py-4 text-[#6d6d6d] hidden md:table-cell">{r.category}</td>
+              <td className="px-5 py-4 text-[#6d6d6d] hidden lg:table-cell">{r.resourceFormat || '—'}</td>
+              <td className="px-5 py-4 text-[#6d6d6d] hidden lg:table-cell">{r.downloadCount}</td>
+              <td className="px-5 py-4 text-[#6d6d6d] hidden sm:table-cell">{formatDate(r.createdAt)}</td>
+              <td className="px-5 py-4">
+                <span className={STATUS_BADGE[r.status]}>
+                  {r.status}
+                </span>
+              </td>
+              <td className="px-5 py-4 text-[#6d6d6d] hidden sm:table-cell">
+                {r.featured ? '★ Featured' : '—'}
+              </td>
+              {onEdit && (
+                <td className="px-5 py-4">
+                  <div className="flex items-center gap-2">
+                    <button type="button" onClick={() => onEdit(r.id)}
+                      className="rounded-lg border border-[#d8d2c3] px-3 py-1 text-sm font-medium text-[#5c6c57] hover:bg-[#f4f0e5] hover:border-[#a8b4a4] transition-colors">Edit</button>
+                    {r.status === 'draft' && onStatusChange && (
+                      <button type="button" onClick={() => onStatusChange(r.id, 'published')}
+                        className="rounded-lg border border-[#a8b8a0] px-3 py-1 text-sm font-medium text-[#4a6a3a] hover:bg-[#eef3e9] hover:border-[#8b9a8f] transition-colors">Publish</button>
+                    )}
+                    {r.status === 'published' && (
+                      <>
+                        {onFeaturedChange && !r.featured && (
+                          <button type="button" onClick={() => onFeaturedChange(r.id, true)}
+                            className="rounded-lg border border-[#f7c948] px-3 py-1 text-sm font-medium text-[#8b7a2a] hover:bg-[#fff9e8] hover:border-[#e5b83c] transition-colors">★ Feature</button>
+                        )}
+                        {onFeaturedChange && r.featured && (
+                          <button type="button" onClick={() => onFeaturedChange(r.id, false)}
+                            className="rounded-lg border border-[#d8d2c3] px-3 py-1 text-sm font-medium text-[#6d6d6d] hover:bg-[#f4f0e5] hover:border-[#a8b4a4] transition-colors">Unfeature</button>
+                        )}
+                        {onStatusChange && (
+                          <button type="button" onClick={() => onStatusChange(r.id, 'archived')}
+                            className="rounded-lg border border-[#d4c896] px-3 py-1 text-sm font-medium text-[#8b7a2a] hover:bg-[#faf6e8] hover:border-[#c4b870] transition-colors">Archive</button>
+                        )}
+                      </>
+                    )}
+                    {r.status === 'archived' && onStatusChange && (
+                      <button type="button" onClick={() => onStatusChange(r.id, 'published')}
+                        className="rounded-lg border border-[#a8b8a0] px-3 py-1 text-sm font-medium text-[#4a6a3a] hover:bg-[#eef3e9] hover:border-[#8b9a8f] transition-colors">Publish</button>
+                    )}
+                    {onDelete && (
+                      <button type="button" onClick={() => onDelete(r.id)}
+                        className="rounded-lg border border-[#d4b8b8] px-3 py-1 text-sm font-medium text-[#8b5a5a] hover:bg-[#faf0f0] hover:border-[#c49090] transition-colors">Delete</button>
+                    )}
+                  </div>
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}

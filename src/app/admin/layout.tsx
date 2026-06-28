@@ -1,0 +1,27 @@
+import AdminSidebar from '@/components/admin/AdminSidebar';
+import AdminHeader from '@/components/admin/AdminHeader';
+import DashboardProvider from '@/components/admin/DashboardProvider';
+
+export const metadata = {
+  title: 'Admin Dashboard | SEL Teacher Tools',
+  robots: 'noindex, nofollow',
+};
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-[#f1f6ed] min-h-screen">
+      <DashboardProvider>
+        <AdminSidebar />
+        <AdminHeader />
+        {/* Main content area */}
+        <main className="md:ml-64 mt-20 md:mt-20 p-6 md:p-8">
+          {children}
+        </main>
+      </DashboardProvider>
+    </div>
+  );
+}

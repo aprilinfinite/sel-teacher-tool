@@ -3,12 +3,15 @@
 import { useState } from "react";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import EmailSignupSection from '@/components/prevent/EmailSignupSection';
+import { useSignupSpotlight } from '@/components/shared/SignupSpotlight';
 
 const tabs = ["Prevent", "Respond", "Recover", "Teacher Support"];
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Prevent");
   const pathname = usePathname();
+  const { activateSpotlight } = useSignupSpotlight();
 
   return (
     <main className="min-h-screen bg-[#f8f7f4]">
@@ -34,10 +37,10 @@ export default function Home() {
             </div>
 
             <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <button className="inline-flex min-w-[200px] items-center justify-center rounded-full bg-[#a8b8a0] px-6 py-4 text-base font-semibold text-white shadow-[0_18px_45px_-24px_rgba(0,0,0,0.25)] transition-transform duration-200 hover:-translate-y-0.5">
+              <button onClick={() => activateSpotlight('start_here')} className="inline-flex min-w-[200px] items-center justify-center rounded-full bg-[#a8b8a0] px-6 py-4 text-base font-semibold text-white shadow-[0_18px_45px_-24px_rgba(0,0,0,0.25)] transition-transform duration-200 hover:-translate-y-0.5">
                 Start Here →
               </button>
-              <button className="inline-flex min-w-[200px] items-center justify-center rounded-full border border-[#e5e2da] bg-white px-6 py-4 text-base font-semibold text-[#3b3b3b] shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
+              <button type="button" disabled className="inline-flex min-w-[200px] items-center justify-center rounded-full border border-[#e5e2da] bg-white px-6 py-4 text-base font-semibold text-[#3b3b3b] shadow-sm transition-transform duration-200 opacity-60 cursor-not-allowed">
                 Browse Supports
               </button>
             </div>
@@ -129,6 +132,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+      </div>
+      <div className="mx-auto max-w-[1280px] px-6 pb-20">
+        <EmailSignupSection signupSource="start_here" />
       </div>
     </main>
   );
