@@ -82,7 +82,7 @@ export default function ResourceList() {
               <p className="text-[#6d6d6d]">No resources match your filters. Try adjusting your search or filter criteria.</p>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
               {filtered.map((resource) => (<ResourceCard key={resource.id} resource={resource} />))}
             </div>
           )}

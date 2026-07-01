@@ -111,8 +111,8 @@ export default function EmailSignupSection({
 
   // Elevated styles when spotlight is active
   const sectionClasses = spotlightActive
-    ? 'rounded-[40px] bg-[#fbf2d9] p-8 relative z-50 shadow-[0_20px_80px_-20px_rgba(59,59,59,0.3)] scale-[1.02] transition-[transform,box-shadow] duration-300 ease-out'
-    : 'rounded-[40px] bg-[#fbf2d9] p-8 shadow-sm';
+    ? 'rounded-[24px] md:rounded-[40px] bg-[#fbf2d9] p-5 md:p-8 relative z-50 shadow-[0_20px_80px_-20px_rgba(59,59,59,0.3)] scale-[1.02] transition-[transform,box-shadow] duration-300 ease-out'
+    : 'rounded-[24px] md:rounded-[40px] bg-[#fbf2d9] p-5 md:p-8 shadow-sm';
 
   return (
     <section id="bottom-signup" className={sectionClasses}>
@@ -130,19 +130,19 @@ export default function EmailSignupSection({
         </div>
       )}
       <div className="mx-auto max-w-5xl">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-6 md:gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-semibold tracking-[-0.03em] text-[#2f3b31] sm:text-4xl">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-[-0.03em] text-[#2f3b31]">
               Get free classroom wellness resources delivered weekly.
             </h2>
-            <p className="mt-4 text-sm text-[#5c6c57]">
+            <p className="mt-3 md:mt-4 text-sm text-[#5c6c57]">
               Practical emotional wellness tools, calming classroom activities, and SEL support for educators who need simple resources that actually work.
             </p>
           </div>
 
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-4 rounded-[32px] border border-[#e5e1d6] bg-white p-6 shadow-sm sm:flex-row sm:items-end"
+            className="flex flex-col gap-3 md:gap-4 rounded-[24px] md:rounded-[32px] border border-[#e5e1d6] bg-white p-5 md:p-6 shadow-sm sm:flex-row sm:items-end"
           >
             <label className="flex-1">
               <span className="mb-2 block text-sm font-medium text-[#4f5e4f]">Name</span>
@@ -167,7 +167,7 @@ export default function EmailSignupSection({
             </label>
             <button
               type="submit"
-              className="rounded-3xl bg-[#a8b8a0] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#8f9e86] disabled:cursor-not-allowed disabled:bg-[#c5c8b8]"
+              className="w-full sm:w-auto rounded-3xl bg-[#a8b8a0] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#8f9e86] disabled:cursor-not-allowed disabled:bg-[#c5c8b8]"
               disabled={!name || !email || submitting}
             >
               {submitting ? 'Joining...' : 'Join'}

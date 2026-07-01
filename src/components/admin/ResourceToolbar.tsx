@@ -21,31 +21,33 @@ export default function ResourceToolbar({ query, onQueryChange, onRefresh }: Pro
         <button type="button" onClick={onRefresh} title="Refresh"
           className="shrink-0 rounded-xl border border-[#e0dcd4] bg-white px-4 py-2.5 text-sm text-[#a8b4a4] hover:text-[#5c6c57] transition-colors">↻</button>
       </div>
-      <div className="flex flex-wrap items-center gap-2">
-        <select value={query.category} onChange={(e) => onQueryChange({ category: e.target.value })}
-          className="rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
-          <option value="">All Categories</option>
-          {CATEGORIES.map((c) => (<option key={c} value={c}>{c}</option>))}
-        </select>
-        <select value={query.gradeLevel} onChange={(e) => onQueryChange({ gradeLevel: e.target.value })}
-          className="rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
-          <option value="">All Grades</option>
-          {GRADES.map((g) => (<option key={g} value={g}>{g}</option>))}
-        </select>
-        <select value={query.resourceFormat} onChange={(e) => onQueryChange({ resourceFormat: e.target.value })}
-          className="rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
-          <option value="">All Formats</option>
-          {FORMATS.map((f) => (<option key={f} value={f}>{f}</option>))}
-        </select>
-        <select value={query.featured} onChange={(e) => onQueryChange({ featured: e.target.value })}
-          className="rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
-          <option value="">All Resources</option>
-          <option value="true">★ Featured</option>
-          <option value="false">Non-Featured</option>
-        </select>
-        <div className="ml-auto">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <select value={query.category} onChange={(e) => onQueryChange({ category: e.target.value })}
+            className="flex-1 sm:flex-none rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
+            <option value="">All Categories</option>
+            {CATEGORIES.map((c) => (<option key={c} value={c}>{c}</option>))}
+          </select>
+          <select value={query.gradeLevel} onChange={(e) => onQueryChange({ gradeLevel: e.target.value })}
+            className="flex-1 sm:flex-none rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
+            <option value="">All Grades</option>
+            {GRADES.map((g) => (<option key={g} value={g}>{g}</option>))}
+          </select>
+          <select value={query.resourceFormat} onChange={(e) => onQueryChange({ resourceFormat: e.target.value })}
+            className="flex-1 sm:flex-none rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
+            <option value="">All Formats</option>
+            {FORMATS.map((f) => (<option key={f} value={f}>{f}</option>))}
+          </select>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <select value={query.featured} onChange={(e) => onQueryChange({ featured: e.target.value })}
+            className="flex-1 sm:flex-none rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
+            <option value="">All Resources</option>
+            <option value="true">★ Featured</option>
+            <option value="false">Non-Featured</option>
+          </select>
           <select value={query.sort} onChange={(e) => onQueryChange({ sort: e.target.value })}
-            className="rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
+            className="flex-1 sm:flex-none rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
             {SORT_OPTIONS.map((o) => (<option key={o.value} value={o.value}>{o.label}</option>))}
           </select>
         </div>

@@ -19,12 +19,12 @@ export default function DeleteDialog({ title, deleting, onConfirm, onCancel }: P
           This will permanently delete the resource and any associated files. This action cannot be undone.
         </p>
 
-        <div className="mt-6 flex items-center justify-end gap-3">
+        <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3">
           <button
             type="button"
             onClick={onCancel}
             disabled={deleting}
-            className="rounded-lg border border-[#d8d2c3] px-4 py-2 text-sm font-medium text-[#5c6c57] hover:bg-[#f4f0e5] transition-colors disabled:opacity-50"
+            className="rounded-lg border border-[#d8d2c3] px-4 py-2.5 text-sm font-medium text-[#5c6c57] hover:bg-[#f4f0e5] transition-colors disabled:opacity-50"
           >
             Cancel
           </button>
@@ -32,7 +32,7 @@ export default function DeleteDialog({ title, deleting, onConfirm, onCancel }: P
             type="button"
             onClick={onConfirm}
             disabled={deleting}
-            className="rounded-lg bg-[#d4a8a8] px-4 py-2 text-sm font-medium text-white hover:bg-[#c49090] transition-colors disabled:opacity-50"
+            className="rounded-lg bg-[#d4a8a8] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#c49090] transition-colors disabled:opacity-50"
           >
             {deleting ? 'Deleting…' : 'Delete'}
           </button>

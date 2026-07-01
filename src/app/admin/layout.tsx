@@ -18,7 +18,7 @@ export default function AdminLayout({
         <AdminSidebar />
         <AdminHeader />
         {/* Main content area */}
-        <main className="md:ml-64 mt-20 md:mt-20 p-6 md:p-8">
+        <main className="md:ml-64 mt-16 md:mt-20 px-4 md:px-8 py-6">
           {children}
         </main>
       </DashboardProvider>

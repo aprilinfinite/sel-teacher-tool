@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 export default function AdminSidebar() {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const isActive = (href: string) => {
     if (href === '/admin') {
@@ -28,7 +28,7 @@ export default function AdminSidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-[#3b3b3b] text-[#f4f0e5] pt-20 md:pt-6 overflow-y-auto transition-transform md:translate-x-0 z-40 ${
+        className={`fixed left-0 top-0 h-screen w-[280px] md:w-64 bg-[#3b3b3b] text-[#f4f0e5] pt-20 md:pt-6 overflow-y-auto transition-transform md:translate-x-0 z-40 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

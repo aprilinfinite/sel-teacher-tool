@@ -55,7 +55,7 @@ function ResourceListSection() {
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={() => setShowForm(true)}
-          className="bg-[#a8b4a4] text-[#f4f0e5] px-6 py-3 rounded-xl font-medium hover:bg-[#8b9a8f] transition-colors"
+          className="w-full sm:w-auto bg-[#a8b4a4] text-[#f4f0e5] px-6 py-3 rounded-xl font-medium hover:bg-[#8b9a8f] transition-colors text-center"
         >
           + Add New Resource
         </button>
@@ -95,8 +95,8 @@ export default function ResourcesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-[#3b3b3b]">Resources</h1>
-        <p className="text-[#a8b4a4]">Manage all resources across categories</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-[#3b3b3b]">Resources</h1>
+        <p className="text-sm md:text-base text-[#a8b4a4]">Manage all resources across categories</p>
       </div>
 
       <ResourceProvider>

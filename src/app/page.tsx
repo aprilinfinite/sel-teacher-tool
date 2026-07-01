@@ -15,28 +15,28 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#f8f7f4]">
-      <div className="mx-auto max-w-[1280px] px-6 pt-8 pb-20">
-        <section className="hero-layout grid grid-cols-2 gap-12 items-start pt-4">
+      <div className="mx-auto max-w-[1280px] px-4 md:px-6 pt-8 pb-20">
+        <section className="hero-layout grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start pt-4">
           <div className="hero-left min-w-0 max-w-[700px]">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#e5e2da] bg-[#e8ede4] px-4 py-2 text-sm font-medium text-[#3b3b3b] shadow-sm">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#e5e2da] bg-[#e8ede4] px-3 md:px-4 py-2 text-xs md:text-sm font-medium text-[#3b3b3b] shadow-sm">
               <span className="h-2 w-2 rounded-full bg-[#a8b8a0]" />
               Free Resources for Educators
             </div>
 
             <div className="max-w-[650px]">
-              <h1 className="text-[70px] font-extrabold leading-[0.9] tracking-[-0.03em] text-[#3b3b3b] sm:text-[70px] lg:text-[70px] xl:text-[70px]">
+              <h1 className="text-[40px] sm:text-[50px] md:text-[60px] lg:text-[70px] font-extrabold leading-[0.9] tracking-[-0.03em] text-[#3b3b3b]">
                 Real <span className="relative inline-flex">
-                  <span className="absolute inset-x-0 bottom-3 top-1/2 -translate-y-1/2 bg-[#e2ead9] rounded-full" />
+                  <span className="absolute inset-x-0 bottom-2 md:bottom-3 top-1/2 -translate-y-1/2 bg-[#e2ead9] rounded-full" />
                   <span className="relative">support</span>
                 </span>
                 <br />for real<br />classroom<br />moments.
               </h1>
-              <p className="mt-7 max-w-[650px] text-[20px] leading-[1.0] text-[#8a8a8a]">
+              <p className="mt-5 md:mt-7 max-w-[650px] text-[16px] md:text-[20px] leading-[1.2] md:leading-[1.0] text-[#8a8a8a]">
                 Printable SEL tools organized around what teachers actually face: before, during, and after hard moments.
               </p>
             </div>
 
-            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="mt-7 md:mt-9 flex flex-col gap-3 md:gap-4 sm:flex-row sm:items-center">
               <button onClick={() => activateSpotlight('start_here')} className="inline-flex min-w-[200px] items-center justify-center rounded-full bg-[#a8b8a0] px-6 py-4 text-base font-semibold text-white shadow-[0_18px_45px_-24px_rgba(0,0,0,0.25)] transition-transform duration-200 hover:-translate-y-0.5">
                 Start Here →
               </button>
@@ -45,7 +45,7 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="mt-6 inline-flex items-center gap-1.5 rounded-[20px] border border-[#e5e2da] bg-white/50 px-3 py-2.5 shadow-sm">
+            <div className="mt-5 md:mt-6 inline-flex items-center gap-1.5 rounded-[20px] border border-[#e5e2da] bg-white/50 px-3 py-2.5 shadow-sm">
               <span className="text-2xl font-bold text-[#3b3b3b]">50+</span>
               <div className="space-y-0.5 text-sm leading-tight text-[#8a8a8a]">
                 <p className="font-semibold text-[#3b3b3b]">Free Resources</p>
@@ -54,7 +54,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero-right flex justify-center lg:justify-end lg:self-start">
+          <div className="hero-right flex justify-center lg:justify-end lg:self-start w-full">
             <div className="w-full max-w-[420px] rounded-[32px] border border-[#e5e2da] bg-white shadow-[0_40px_90px_-35px_rgba(59,59,59,0.15)]">
               <div className="rounded-t-[32px] bg-[#a8b8a0] px-5 py-4 text-white">
                 <div className="flex items-center justify-between gap-4">
@@ -133,7 +133,7 @@ export default function Home() {
           </div>
         </section>
       </div>
-      <div className="mx-auto max-w-[1280px] px-6 pb-20">
+      <div className="mx-auto max-w-[1280px] px-4 md:px-6 pb-20">
         <EmailSignupSection signupSource="start_here" />
       </div>
     </main>

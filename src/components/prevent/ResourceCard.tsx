@@ -28,7 +28,7 @@ export default function ResourceCard({ resource }: { resource: DbResource }) {
         <div className="p-2">
           <div className="mx-auto overflow-hidden rounded-[20px] border border-[#e5e1d6] bg-white shadow-inner" style={{ height: '180px' }}>
             {hasThumbnail ? (
-              <img src={resource.thumbnail_path!} alt={resource.thumbnail_alt || resource.title} className="h-full w-full object-cover" />
+              <img src={resource.thumbnail_path!} alt={resource.thumbnail_alt || resource.title} className="h-full w-full object-cover max-w-full" />
             ) : (
               <div className="flex h-full w-full flex-col justify-center p-5">
                 <div className="mb-4 flex items-center justify-between">

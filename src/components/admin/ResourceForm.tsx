@@ -222,7 +222,7 @@ export default function ResourceForm({ onSuccess, onCancel, editing, resource }:
           </div>
 
           {/* Category & Grade Level */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-[#3b3b3b] mb-2">
                 Category *
@@ -261,7 +261,7 @@ export default function ResourceForm({ onSuccess, onCancel, editing, resource }:
           </div>
 
           {/* Topic Tag & Time Needed */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-[#3b3b3b] mb-2">
                 Topic Tag
@@ -301,7 +301,7 @@ export default function ResourceForm({ onSuccess, onCancel, editing, resource }:
 
         <div className="space-y-4">
           {/* SEL Skill & Learner Need */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-[#3b3b3b] mb-2">
                 SEL Skill
@@ -332,7 +332,7 @@ export default function ResourceForm({ onSuccess, onCancel, editing, resource }:
           </div>
 
           {/* Situation & Resource Format */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-[#3b3b3b] mb-2">
                 Situation
@@ -523,11 +523,11 @@ export default function ResourceForm({ onSuccess, onCancel, editing, resource }:
       )}
 
       {/* Action Buttons */}
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-3">
         <button
           type="submit"
           disabled={isSaving}
-          className="px-6 py-3 rounded-xl font-semibold text-[#f4f0e5] transition-colors disabled:cursor-not-allowed disabled:opacity-70 bg-[#a8b4a4] hover:bg-[#8b9a8f]"
+          className="w-full sm:w-auto px-6 py-3 rounded-xl font-semibold text-[#f4f0e5] transition-colors disabled:cursor-not-allowed disabled:opacity-70 bg-[#a8b4a4] hover:bg-[#8b9a8f]"
         >
           {isSaving ? 'Saving...' : 'Save Resource'}
         </button>
@@ -535,7 +535,7 @@ export default function ResourceForm({ onSuccess, onCancel, editing, resource }:
           type="button"
           onClick={() => { if (editing && onCancel) { onCancel(); } else { resetForm(); } }}
           disabled={isSaving}
-          className="px-6 py-3 bg-[#e0dcd4] text-[#3b3b3b] rounded-xl font-semibold hover:bg-[#d0ccc4] transition-colors disabled:cursor-not-allowed disabled:opacity-70"
+          className="w-full sm:w-auto px-6 py-3 bg-[#e0dcd4] text-[#3b3b3b] rounded-xl font-semibold hover:bg-[#d0ccc4] transition-colors disabled:cursor-not-allowed disabled:opacity-70"
         >
           Cancel
         </button>
