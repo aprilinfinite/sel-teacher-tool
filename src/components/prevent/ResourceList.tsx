@@ -1,15 +1,30 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import ResourceCard from './ResourceCard';
+import PremiumResourceHubModal from './PremiumResourceHubModal';
 import type { Resource as DbResource } from '@/lib/types';
 
+function getCategoryFromPath(pathname: string): string {
+  if (pathname.includes('/prevent')) return 'prevent';
+  if (pathname.includes('/respond')) return 'respond';
+  if (pathname.includes('/recover')) return 'recover';
+  if (pathname.includes('/teacher-support')) return 'teacher-support';
+  return 'prevent';
+}
+
 export default function ResourceList() {
+  const pathname = usePathname();
+  const category = getCategoryFromPath(pathname);
   const [resources, setResources] = useState<DbResource[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [gradeFilter, setGradeFilter] = useState('');
+
+  // Premium Resource Hub modal state
+  const [hubResource, setHubResource] = useState<DbResource | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -27,31 +42,31 @@ export default function ResourceList() {
     return () => { mounted = false; };
   }, []);
 
-  const preventResources = useMemo(
-    () => (resources || []).filter((r) => (r.category || '').toLowerCase() === 'prevent'),
-    [resources],
+  const categoryResources = useMemo(
+    () => (resources || []).filter((r) => (r.category || '').toLowerCase() === category),
+    [resources, category],
   );
 
   const uniqueGrades = useMemo(() => {
     const gs = new Set<string>();
-    preventResources.forEach((r) => { if (r.grade_level) gs.add(r.grade_level); });
+    categoryResources.forEach((r) => { if (r.grade_level) gs.add(r.grade_level); });
     return Array.from(gs).sort();
-  }, [preventResources]);
+  }, [categoryResources]);
 
   const filtered = useMemo(() => {
-    let list = preventResources;
+    let list = categoryResources;
     if (search.trim()) {
       const q = search.trim().toLowerCase();
       list = list.filter((r) => r.title.toLowerCase().includes(q) || (r.description || '').toLowerCase().includes(q));
     }
     if (gradeFilter) list = list.filter((r) => r.grade_level === gradeFilter);
     return list;
-  }, [preventResources, search, gradeFilter]);
+  }, [categoryResources, search, gradeFilter]);
 
   if (loading) return <div className="col-span-full text-[#6d6d6d]">Loading resources...</div>;
   if (error) return <div className="col-span-full text-[#8b2a2a]">{error}</div>;
 
-  const emptyAll = preventResources.length === 0;
+  const emptyAll = categoryResources.length === 0;
 
   return (
     <>
@@ -83,10 +98,24 @@ export default function ResourceList() {
             </div>
           ) : (
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
-              {filtered.map((resource) => (<ResourceCard key={resource.id} resource={resource} />))}
+              {filtered.map((resource) => (
+                <ResourceCard
+                  key={resource.id}
+                  resource={resource}
+                  onOpenPremiumHub={setHubResource}
+                />
+              ))}
             </div>
           )}
         </>
+      )}
+
+      {/* Premium Resource Hub Modal — rendered once at the top level */}
+      {hubResource && (
+        <PremiumResourceHubModal
+          resource={hubResource}
+          onClose={() => setHubResource(null)}
+        />
       )}
     </>
   );

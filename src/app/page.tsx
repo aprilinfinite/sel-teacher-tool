@@ -83,10 +83,10 @@ export default function Home() {
                       <span className="text-[#8a8a8a]">→</span>
                     </div>
                   </Link>
-                  <button type="button" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
+                  <Link href="/respond" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <span className="text-2xl leading-none">🫧</span>
+                        <span className="text-2xl leading-none">💬</span>
                         <div>
                           <p className="font-semibold text-[#3b3b3b]">Respond</p>
                           <p className="text-sm text-[#8a8a8a]">De-escalate in the moment</p>
@@ -94,11 +94,11 @@ export default function Home() {
                       </div>
                       <span className="text-[#8a8a8a]">→</span>
                     </div>
-                  </button>
-                  <button type="button" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
+                  </Link>
+                  <Link href="/recover" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <span className="text-2xl leading-none">🔄</span>
+                        <span className="text-2xl leading-none">✨</span>
                         <div>
                           <p className="font-semibold text-[#3b3b3b]">Recover</p>
                           <p className="text-sm text-[#8a8a8a]">Repair after a hard moment</p>
@@ -106,11 +106,11 @@ export default function Home() {
                       </div>
                       <span className="text-[#8a8a8a]">→</span>
                     </div>
-                  </button>
-                  <button type="button" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
+                  </Link>
+                  <Link href="/teacher-support" className="group w-full rounded-[24px] border border-[#e5e2da] bg-white px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <span className="text-2xl leading-none">💛</span>
+                        <span className="text-2xl leading-none">☕</span>
                         <div>
                           <p className="font-semibold text-[#3b3b3b]">Teacher Support</p>
                           <p className="text-sm text-[#8a8a8a]">Take care of yourself, too</p>
@@ -118,7 +118,7 @@ export default function Home() {
                       </div>
                       <span className="text-[#8a8a8a]">→</span>
                     </div>
-                  </button>
+                  </Link>
                   <button type="button" className="mt-4 w-full rounded-[28px] border border-[#e5e2da] bg-[#f6f5f2] px-5 py-4 text-left shadow-sm transition-transform duration-200 hover:-translate-y-0.5">
                     <div className="flex items-center justify-between gap-4">
                       <div>

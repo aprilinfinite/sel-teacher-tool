@@ -6,6 +6,7 @@ type Props = { query: ResourceQueryParams; onQueryChange: (p: Partial<ResourceQu
 const CATEGORIES = ['Prevent', 'Respond', 'Recover', 'Teacher Support'];
 const GRADES = ['K-2', '3-5', '6-8', '9-10', '11-12', 'All Grades'];
 const FORMATS = ['PDF', 'Worksheet', 'Activity', 'Visual', 'Guide'];
+const STATUSES = ['draft', 'published', 'archived'];
 
 export default function ResourceToolbar({ query, onQueryChange, onRefresh }: Props) {
   return (
@@ -27,6 +28,11 @@ export default function ResourceToolbar({ query, onQueryChange, onRefresh }: Pro
             className="flex-1 sm:flex-none rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
             <option value="">All Categories</option>
             {CATEGORIES.map((c) => (<option key={c} value={c}>{c}</option>))}
+          </select>
+          <select value={query.status} onChange={(e) => onQueryChange({ status: e.target.value })}
+            className="flex-1 sm:flex-none rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">
+            <option value="">All Statuses</option>
+            {STATUSES.map((s) => (<option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>))}
           </select>
           <select value={query.gradeLevel} onChange={(e) => onQueryChange({ gradeLevel: e.target.value })}
             className="flex-1 sm:flex-none rounded-xl border border-[#e0dcd4] bg-white px-3 py-2 text-xs text-[#3b3b3b] outline-none focus:border-[#a8b4a0]">

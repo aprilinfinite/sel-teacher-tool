@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useDownloadGate } from '@/components/shared/DownloadGate';
 import { useSignupSpotlight, getSpotlightMessage } from '@/components/shared/SignupSpotlight';
 
@@ -28,10 +29,66 @@ function detectLandingPage(): string {
   return 'website';
 }
 
+function getAccentTheme(pathname: string) {
+  if (pathname.includes('/respond')) {
+    return {
+      sectionBg: '#E8F1FB',
+      joinBtnBg: '#5DADE2',
+      joinBtnHover: '#4a9bd0',
+      joinBtnText: '#FFFFFF',
+      downloadBorder: '#5DADE2',
+      downloadBg: '#E8F1FB',
+      downloadText: '#2E3A47',
+      inputFocusBorder: '#5DADE2',
+      inputFocusRing: '#BFD7F2',
+    };
+  }
+  if (pathname.includes('/recover')) {
+    return {
+      sectionBg: '#EDE8F7',
+      joinBtnBg: '#8E7CC3',
+      joinBtnHover: '#7a68b0',
+      joinBtnText: '#FFFFFF',
+      downloadBorder: '#8E7CC3',
+      downloadBg: '#F7F2FB',
+      downloadText: '#2E2A3A',
+      inputFocusBorder: '#8E7CC3',
+      inputFocusRing: '#CBB9E8',
+    };
+  }
+  if (pathname.includes('/teacher-support')) {
+    return {
+      sectionBg: '#FFF0E2',
+      joinBtnBg: '#FF9D6E',
+      joinBtnHover: '#e88a5e',
+      joinBtnText: '#FFFFFF',
+      downloadBorder: '#FF9D6E',
+      downloadBg: '#FFF0E2',
+      downloadText: '#4A4A4A',
+      inputFocusBorder: '#FF9D6E',
+      inputFocusRing: '#FFD5C2',
+    };
+  }
+  // Default (prevent / homepage)
+  return {
+    sectionBg: '#fbf2d9',
+    joinBtnBg: '#a8b8a0',
+    joinBtnHover: '#8f9e86',
+    joinBtnText: '#FFFFFF',
+    downloadBorder: '#f7c948',
+    downloadBg: '#fef9ea',
+    downloadText: '#5c5030',
+    inputFocusBorder: '#a8b8a0',
+    inputFocusRing: '#dbe7d4',
+  };
+}
+
 export default function EmailSignupSection({
   signupSource = 'website',
   onSuccess,
 }: Props) {
+  const pathname = usePathname();
+  const accent = getAccentTheme(pathname);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -111,11 +168,11 @@ export default function EmailSignupSection({
 
   // Elevated styles when spotlight is active
   const sectionClasses = spotlightActive
-    ? 'rounded-[24px] md:rounded-[40px] bg-[#fbf2d9] p-5 md:p-8 relative z-50 shadow-[0_20px_80px_-20px_rgba(59,59,59,0.3)] scale-[1.02] transition-[transform,box-shadow] duration-300 ease-out'
-    : 'rounded-[24px] md:rounded-[40px] bg-[#fbf2d9] p-5 md:p-8 shadow-sm';
+    ? 'rounded-[24px] md:rounded-[40px] p-5 md:p-8 relative z-50 shadow-[0_20px_80px_-20px_rgba(59,59,59,0.3)] scale-[1.02] transition-[transform,box-shadow] duration-300 ease-out'
+    : 'rounded-[24px] md:rounded-[40px] p-5 md:p-8 shadow-sm';
 
   return (
-    <section id="bottom-signup" className={sectionClasses}>
+    <section id="bottom-signup" className={sectionClasses} style={{ backgroundColor: accent.sectionBg }}>
       {/* Spotlight contextual message */}
       {spotlightMessage && (
         <div className="mb-6 rounded-2xl border border-[#a8b8a0]/30 bg-[#eef3e9] px-5 py-4 text-sm text-[#3b4b36]">
@@ -125,7 +182,7 @@ export default function EmailSignupSection({
 
       {/* Download gate message (shown when no spotlight is active but download is pending) */}
       {!spotlightActive && hasPendingDownload && (
-        <div className="mb-6 rounded-2xl border border-[#f7c948]/30 bg-[#fef9ea] px-5 py-4 text-sm text-[#5c5030]">
+        <div className="mb-6 rounded-2xl border px-5 py-4 text-sm" style={{ borderColor: accent.downloadBorder, backgroundColor: accent.downloadBg, color: accent.downloadText }}>
           Unlock all free downloads by joining our free resource list. You&rsquo;ll only need to do this once on this browser.
         </div>
       )}
@@ -152,7 +209,10 @@ export default function EmailSignupSection({
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 placeholder="Your name"
-                className="w-full rounded-3xl border border-[#d8d2c5] bg-[#faf7f1] px-4 py-3 text-sm text-[#2f3b31] outline-none focus:border-[#a8b8a0] focus:ring-2 focus:ring-[#dbe7d4]"
+                className="w-full rounded-3xl border border-[#d8d2c5] bg-[#faf7f1] px-4 py-3 text-sm text-[#2f3b31] outline-none transition"
+                style={{ borderColor: '#d8d2c5' }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = accent.inputFocusBorder; e.currentTarget.style.boxShadow = `0 0 0 2px ${accent.inputFocusRing}`; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = '#d8d2c5'; e.currentTarget.style.boxShadow = 'none'; }}
               />
             </label>
             <label className="flex-1">
@@ -162,12 +222,18 @@ export default function EmailSignupSection({
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="you@example.com"
-                className="w-full rounded-3xl border border-[#d8d2c5] bg-[#faf7f1] px-4 py-3 text-sm text-[#2f3b31] outline-none focus:border-[#a8b8a0] focus:ring-2 focus:ring-[#dbe7d4]"
+                className="w-full rounded-3xl border border-[#d8d2c5] bg-[#faf7f1] px-4 py-3 text-sm text-[#2f3b31] outline-none transition"
+                style={{ borderColor: '#d8d2c5' }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = accent.inputFocusBorder; e.currentTarget.style.boxShadow = `0 0 0 2px ${accent.inputFocusRing}`; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = '#d8d2c5'; e.currentTarget.style.boxShadow = 'none'; }}
               />
             </label>
             <button
               type="submit"
-              className="w-full sm:w-auto rounded-3xl bg-[#a8b8a0] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#8f9e86] disabled:cursor-not-allowed disabled:bg-[#c5c8b8]"
+              className="w-full sm:w-auto rounded-3xl px-6 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:bg-[#c5c8b8]"
+              style={{ backgroundColor: accent.joinBtnBg, color: accent.joinBtnText }}
+              onMouseEnter={(e) => { if (!submitting && name && email) e.currentTarget.style.backgroundColor = accent.joinBtnHover; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = accent.joinBtnBg; }}
               disabled={!name || !email || submitting}
             >
               {submitting ? 'Joining...' : 'Join'}
@@ -187,4 +253,3 @@ export default function EmailSignupSection({
     </section>
   );
 }
-

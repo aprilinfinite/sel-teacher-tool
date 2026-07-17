@@ -13,8 +13,11 @@ type Props = {
   onRetry: () => void;
   onEdit?: (id: number) => void;
   onDelete?: (id: number) => void;
+  onDuplicate?: (id: number) => void;
   onStatusChange?: (id: number, status: string) => void;
   onFeaturedChange?: (id: number, featured: boolean) => void;
+  onManageProducts?: (id: number) => void;
+  onManageBundle?: (id: number) => void;
 };
 
 function formatDate(iso: string): string {
@@ -35,11 +38,17 @@ function LoadingSkeleton() {
   );
 }
 
-function EmptyState() {
+function EmptyState({ category }: { category?: string }) {
+  const categoryName = category || 'this category';
   return (
-    <div className="text-center py-10">
-      <p className="text-[#a8b4a4] text-lg">No resources yet.</p>
-      <p className="text-[#a8b4a4] text-sm mt-1">Create your first resource to get started.</p>
+    <div className="text-center py-12">
+      <div className="text-4xl mb-4">📂</div>
+      <p className="text-[#a8b4a4] text-lg font-medium">
+        No resources have been created for {categoryName} yet.
+      </p>
+      <p className="text-[#a8b4a4] text-sm mt-1">
+        Create your first resource to get started.
+      </p>
     </div>
   );
 }
@@ -56,12 +65,15 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
   );
 }
 
-function MobileResourceCard({ r, onEdit, onDelete, onStatusChange, onFeaturedChange }: {
+function MobileResourceCard({ r, onEdit, onDelete, onDuplicate, onStatusChange, onFeaturedChange, onManageProducts, onManageBundle }: {
   r: ResourceItem;
   onEdit?: (id: number) => void;
   onDelete?: (id: number) => void;
+  onDuplicate?: (id: number) => void;
   onStatusChange?: (id: number, status: string) => void;
   onFeaturedChange?: (id: number, featured: boolean) => void;
+  onManageProducts?: (id: number) => void;
+  onManageBundle?: (id: number) => void;
 }) {
   return (
     <div className="bg-white rounded-2xl border border-[#e6e0d0] p-4 shadow-sm space-y-3">
@@ -79,6 +91,7 @@ function MobileResourceCard({ r, onEdit, onDelete, onStatusChange, onFeaturedCha
       </div>
       <div className="flex items-center justify-between text-xs text-[#6d6d6d]">
         <span>⬇ {r.downloadCount}</span>
+        <span>Order: {r.displayOrder}</span>
         <span>{formatDate(r.createdAt)}</span>
         <span>{r.featured ? '★ Featured' : '—'}</span>
       </div>
@@ -86,6 +99,10 @@ function MobileResourceCard({ r, onEdit, onDelete, onStatusChange, onFeaturedCha
         {onEdit && (
           <button type="button" onClick={() => onEdit(r.id)}
             className="rounded-lg border border-[#d8d2c3] px-2.5 py-1.5 text-xs font-medium text-[#5c6c57] hover:bg-[#f4f0e5] transition-colors">Edit</button>
+        )}
+        {onDuplicate && (
+          <button type="button" onClick={() => onDuplicate(r.id)}
+            className="rounded-lg border border-[#c8d4c0] px-2.5 py-1.5 text-xs font-medium text-[#4a6a3a] hover:bg-[#eef3e9] transition-colors">Duplicate</button>
         )}
         {r.status === 'draft' && onStatusChange && (
           <button type="button" onClick={() => onStatusChange(r.id, 'published')}
@@ -111,6 +128,10 @@ function MobileResourceCard({ r, onEdit, onDelete, onStatusChange, onFeaturedCha
           <button type="button" onClick={() => onStatusChange(r.id, 'published')}
             className="rounded-lg border border-[#a8b8a0] px-2.5 py-1.5 text-xs font-medium text-[#4a6a3a] hover:bg-[#eef3e9] transition-colors">Publish</button>
         )}
+        {onManageBundle && (
+          <button type="button" onClick={() => onManageBundle(r.id)}
+            className="rounded-lg border border-[#a8b4a4] px-2.5 py-1.5 text-xs font-medium text-[#5c6c57] hover:bg-[#f4f0e5] hover:border-[#8b9a8f] transition-colors">Bundle</button>
+        )}
         {onDelete && (
           <button type="button" onClick={() => onDelete(r.id)}
             className="rounded-lg border border-[#d4b8b8] px-2.5 py-1.5 text-xs font-medium text-[#8b5a5a] hover:bg-[#faf0f0] transition-colors">Delete</button>
@@ -127,8 +148,11 @@ export default function ResourceTable({
   onRetry,
   onEdit,
   onDelete,
+  onDuplicate,
   onStatusChange,
   onFeaturedChange,
+  onManageProducts,
+  onManageBundle,
 }: Props) {
   
   if (loading) return <LoadingSkeleton />;
@@ -145,8 +169,10 @@ export default function ResourceTable({
             r={r}
             onEdit={onEdit}
             onDelete={onDelete}
+            onDuplicate={onDuplicate}
             onStatusChange={onStatusChange}
             onFeaturedChange={onFeaturedChange}
+            onManageBundle={onManageBundle}
           />
         ))}
       </div>
@@ -158,11 +184,11 @@ export default function ResourceTable({
             <tr>
               <th className="px-5 py-4 font-semibold">Title</th>
               <th className="px-5 py-4 font-semibold hidden md:table-cell">Category</th>
-              <th className="px-5 py-4 font-semibold hidden lg:table-cell">Format</th>
-              <th className="px-5 py-4 font-semibold hidden lg:table-cell">Downloads</th>
-              <th className="px-5 py-4 font-semibold hidden sm:table-cell">Created</th>
-              <th className="px-5 py-4 font-semibold">Status</th>
+              <th className="px-5 py-4 font-semibold hidden lg:table-cell">Status</th>
               <th className="px-5 py-4 font-semibold hidden sm:table-cell">Featured</th>
+              <th className="px-5 py-4 font-semibold hidden sm:table-cell">Order</th>
+              <th className="px-5 py-4 font-semibold hidden lg:table-cell">Products</th>
+              <th className="px-5 py-4 font-semibold hidden lg:table-cell">Created</th>
               {onEdit && <th className="px-5 py-4 font-semibold">Actions</th>}
             </tr>
           </thead>
@@ -170,20 +196,25 @@ export default function ResourceTable({
             {resources.map((r) => (
               <tr key={r.id} className="hover:bg-[#f9f7f2] transition-colors">
                 <td className="px-5 py-4">
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-[#3b3b3b]">{r.title}</span>
-                    {r.featured && (
-                      <span className="inline-flex items-center rounded-full bg-[#f7c948]/20 px-2 py-0.5 text-[10px] font-semibold uppercase text-[#a9812c]">
-                        ★
-                      </span>
-                    )}
+                  <div className="flex items-center gap-3">
+                    {/* Thumbnail placeholder */}
+                    <div className="h-10 w-10 shrink-0 rounded-lg bg-[#eef3e9] flex items-center justify-center text-xs text-[#a8b4a4]">
+                      📄
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-[#3b3b3b]">{r.title}</span>
+                        {r.featured && (
+                          <span className="inline-flex items-center rounded-full bg-[#f7c948]/20 px-2 py-0.5 text-[10px] font-semibold uppercase text-[#a9812c]">
+                            ★
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </td>
                 <td className="px-5 py-4 text-[#6d6d6d] hidden md:table-cell">{r.category}</td>
-                <td className="px-5 py-4 text-[#6d6d6d] hidden lg:table-cell">{r.resourceFormat || '—'}</td>
-                <td className="px-5 py-4 text-[#6d6d6d] hidden lg:table-cell">{r.downloadCount}</td>
-                <td className="px-5 py-4 text-[#6d6d6d] hidden sm:table-cell">{formatDate(r.createdAt)}</td>
-                <td className="px-5 py-4">
+                <td className="px-5 py-4 hidden lg:table-cell">
                   <span className={STATUS_BADGE[r.status]}>
                     {r.status}
                   </span>
@@ -191,11 +222,32 @@ export default function ResourceTable({
                 <td className="px-5 py-4 text-[#6d6d6d] hidden sm:table-cell">
                   {r.featured ? '★ Featured' : '—'}
                 </td>
+                <td className="px-5 py-4 text-[#6d6d6d] hidden sm:table-cell">
+                  {r.displayOrder}
+                </td>
+                <td className="px-5 py-4 text-[#6d6d6d] hidden lg:table-cell">
+                  {r.productCount}
+                </td>
+                <td className="px-5 py-4 text-[#6d6d6d] hidden lg:table-cell">
+                  {formatDate(r.createdAt)}
+                </td>
                 {onEdit && (
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-2">
                       <button type="button" onClick={() => onEdit(r.id)}
                         className="rounded-lg border border-[#d8d2c3] px-3 py-1 text-sm font-medium text-[#5c6c57] hover:bg-[#f4f0e5] hover:border-[#a8b4a4] transition-colors">Edit</button>
+                      {onDuplicate && (
+                        <button type="button" onClick={() => onDuplicate(r.id)}
+                          className="rounded-lg border border-[#c8d4c0] px-3 py-1 text-sm font-medium text-[#4a6a3a] hover:bg-[#eef3e9] hover:border-[#8b9a8f] transition-colors">Duplicate</button>
+                      )}
+                      {onManageProducts && (
+                        <button type="button" onClick={() => onManageProducts(r.id)}
+                          className="rounded-lg border border-[#a8b8a0] px-3 py-1 text-sm font-medium text-[#4a6a3a] hover:bg-[#eef3e9] hover:border-[#8b9a8f] transition-colors">Manage Products</button>
+                      )}
+                      {onManageBundle && (
+                        <button type="button" onClick={() => onManageBundle(r.id)}
+                          className="rounded-lg border border-[#a8b4a4] px-3 py-1 text-sm font-medium text-[#5c6c57] hover:bg-[#f4f0e5] hover:border-[#8b9a8f] transition-colors">Bundle</button>
+                      )}
                       {r.status === 'draft' && onStatusChange && (
                         <button type="button" onClick={() => onStatusChange(r.id, 'published')}
                           className="rounded-lg border border-[#a8b8a0] px-3 py-1 text-sm font-medium text-[#4a6a3a] hover:bg-[#eef3e9] hover:border-[#8b9a8f] transition-colors">Publish</button>

@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Providers from '@/components/shared/Providers';
 
 export const metadata: Metadata = {
-  title: 'SEL Teacher Tools',
+  title: 'Admin Dashboard | SEL Teacher Tools version 2 test',
   description: 'Real support for real classroom moments.',
 };
 

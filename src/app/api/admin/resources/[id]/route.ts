@@ -24,33 +24,56 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     const formData = await req.formData();
 
     const title = formData.get('title') as string;
-    const description = formData.get('description') as string;
+    const slug = formData.get('slug') as string;
     const category = formData.get('category') as string;
-    const gradeLevel = JSON.parse((formData.get('gradeLevel') as string) || '[]');
-    const grade_level = Array.isArray(gradeLevel) ? gradeLevel.join(', ') : null;
+    const status = (formData.get('status') as string) || 'draft';
+    const featured = formData.get('featured') === 'true';
+    const displayOrderStr = formData.get('display_order') as string;
+    const display_order = displayOrderStr ? parseInt(displayOrderStr, 10) : 0;
 
     if (!title || !category) {
       return NextResponse.json({ error: 'Title and category are required' }, { status: 400 });
     }
 
+    // Descriptions
+    const short_description = (formData.get('short_description') as string) || null;
+    const resource_description = (formData.get('resource_description') as string) || null;
+
+    // Classification
+    const tags = (formData.get('tags') as string) || null;
+    const gradeLevel = JSON.parse((formData.get('gradeLevel') as string) || '[]');
+    const grade_level = Array.isArray(gradeLevel) ? gradeLevel.join(', ') : null;
+    const time_needed = (formData.get('time_needed') as string) || null;
+    const materials_needed = (formData.get('materials_needed') as string) || null;
+    const resource_type = (formData.get('resource_type') as string) || null;
+
+    // NOTE: Only include columns that exist in the database schema.
     const payload: Record<string, unknown> = {
       title,
-      description: description || null,
       category,
-      grade_level: grade_level || null,
-      topic_tag: (formData.get('topicTag') as string) || null,
-      time_needed: (formData.get('timeNeeded') as string) || null,
-      seo_title: (formData.get('seoTitle') as string) || null,
-      seo_description: (formData.get('seoDescription') as string) || null,
-      focus_keyword: (formData.get('focusKeyword') as string) || null,
-      featured: formData.get('featured') === 'true' ? 1 : 0,
-      sel_skill: (formData.get('selSkill') as string) || null,
-      learner_need: (formData.get('learnerNeed') as string) || null,
-      situation: (formData.get('situation') as string) || null,
-      resource_format: (formData.get('resourceFormat') as string) || null,
+      status,
+      featured: featured ? 1 : 0,
+      grade_level,
+      time_needed,
     };
 
-    // Handle file replacement — only update if new files provided
+    // Allow manual slug editing
+    if (slug && slug.trim()) {
+      payload.slug = slug.trim();
+    }
+
+
+    // Handle thumbnail upload
+    const thumbnail = formData.get('thumbnail') as File | null;
+    if (thumbnail && thumbnail.size > 0) {
+      const ext = thumbnail.name.split('.').pop() || 'jpg';
+      const fileName = `resource-${id}-thumb.${ext}`;
+      await supabaseAdmin.storage.from('resource-thumbnails').upload(fileName, thumbnail, { contentType: thumbnail.type, upsert: true });
+      const { data: urlData } = supabaseAdmin.storage.from('resource-thumbnails').getPublicUrl(fileName);
+      payload.thumbnail_path = urlData.publicUrl;
+    }
+
+    // Handle PDF upload
     const pdf = formData.get('pdf') as File | null;
     if (pdf && pdf.size > 0) {
       const ext = pdf.name.split('.').pop() || 'pdf';
@@ -60,13 +83,14 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       payload.file_path = urlData.publicUrl;
     }
 
-    const thumbnail = formData.get('thumbnail') as File | null;
-    if (thumbnail && thumbnail.size > 0) {
-      const ext = thumbnail.name.split('.').pop() || 'jpg';
-      const fileName = `resource-${id}-thumb.${ext}`;
-      await supabaseAdmin.storage.from('resource-thumbnails').upload(fileName, thumbnail, { contentType: thumbnail.type, upsert: true });
-      const { data: urlData } = supabaseAdmin.storage.from('resource-thumbnails').getPublicUrl(fileName);
-      payload.thumbnail_path = urlData.publicUrl;
+    // Handle remove_file flag
+    if (formData.get('remove_file') === 'true') {
+      payload.file_path = null;
+    }
+
+    // Handle remove_thumbnail flag
+    if (formData.get('remove_thumbnail') === 'true') {
+      payload.thumbnail_path = null;
     }
 
     await editResource(Number(id), payload);

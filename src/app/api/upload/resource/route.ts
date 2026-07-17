@@ -22,30 +22,30 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData();
 
     const title = formData.get('title') as string;
-    const description = formData.get('description') as string;
     const category = formData.get('category') as string;
-    const gradeLevel = JSON.parse(
-      (formData.get('gradeLevel') as string) || '[]'
-    );
-    const grade_level =
-      Array.isArray(gradeLevel)
-        ? gradeLevel.join(', ')
-        : null;
-    const topic_tag = formData.get('topicTag') as string;
-    const time_needed = formData.get('timeNeeded') as string;
-    const seo_title = formData.get('seoTitle') as string;
-    const seo_description = formData.get('seoDescription') as string;
-    const focus_keyword = formData.get('focusKeyword') as string;
-    const thumbnail_alt = null;
+    const status = (formData.get('status') as string) || 'draft';
     const featured = formData.get('featured') === 'true';
-    const sel_skill = formData.get('selSkill') as string;
-    const learner_need = formData.get('learnerNeed') as string;
-    const situation = formData.get('situation') as string;
-    const resource_format = formData.get('resourceFormat') as string;
+    const displayOrderStr = formData.get('display_order') as string;
+    const display_order = displayOrderStr ? parseInt(displayOrderStr, 10) : 0;
 
     if (!title || !category) {
       return NextResponse.json({ error: 'Title and category are required' }, { status: 400 });
     }
+
+    // Descriptions
+    const short_description = (formData.get('short_description') as string) || null;
+    const resource_description = (formData.get('resource_description') as string) || null;
+
+    // Classification
+    const tags = (formData.get('tags') as string) || null;
+    const gradeLevel = JSON.parse((formData.get('gradeLevel') as string) || '[]');
+    const grade_level = Array.isArray(gradeLevel) ? gradeLevel.join(', ') : null;
+    const time_needed = (formData.get('time_needed') as string) || null;
+    const materials_needed = (formData.get('materials_needed') as string) || null;
+    const resource_type = (formData.get('resource_type') as string) || null;
+
+    // Track created_by
+    const adminEmail = formData.get('admin_email') as string;
 
     const baseSlug = generateSlug(title);
 
@@ -98,29 +98,24 @@ export async function POST(req: NextRequest) {
     }
 
     // Insert resource into Supabase
+    // NOTE: Only include columns that exist in the database schema.
+    const insertPayload: Record<string, unknown> = {
+      title,
+      slug,
+      category,
+      status,
+      featured: featured ? 1 : 0,
+      grade_level,
+      time_needed,
+      file_path,
+      thumbnail_path,
+      download_count: 0,
+    };
+
+
     const { data, error: insertError } = await supabaseAdmin
       .from('resources')
-      .insert({
-        title,
-        slug,
-        description: description || null,
-        category,
-        grade_level,
-        topic_tag: topic_tag || null,
-        time_needed: time_needed || null,
-        file_path,
-        thumbnail_path,
-        thumbnail_alt,
-        seo_title: seo_title || null,
-        seo_description: seo_description || null,
-        focus_keyword: focus_keyword || null,
-        featured: featured ? 1 : 0,
-        download_count: 0,
-        sel_skill: sel_skill || null,
-        learner_need: learner_need || null,
-        situation: situation || null,
-        resource_format: resource_format || null,
-      })
+      .insert(insertPayload)
       .select('id')
       .single();
 

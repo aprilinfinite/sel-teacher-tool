@@ -5,18 +5,19 @@ type Props = {
   deleting: boolean;
   onConfirm: () => void;
   onCancel: () => void;
+  itemType?: string;
 };
 
-export default function DeleteDialog({ title, deleting, onConfirm, onCancel }: Props) {
+export default function DeleteDialog({ title, deleting, onConfirm, onCancel, itemType = 'Resource' }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#3b3b3b]/30">
       <div className="mx-4 w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
-        <h3 className="text-lg font-semibold text-[#3b3b3b]">Delete Resource</h3>
+        <h3 className="text-lg font-semibold text-[#3b3b3b]">Delete {itemType}</h3>
         <p className="mt-2 text-sm text-[#6d6d6d]">
           Are you sure you want to delete <span className="font-semibold text-[#3b3b3b]">{title}</span>?
         </p>
         <p className="mt-1 text-xs text-[#a8b4a4]">
-          This will permanently delete the resource and any associated files. This action cannot be undone.
+          This will permanently delete the {itemType.toLowerCase()} and any associated files. This action cannot be undone.
         </p>
 
         <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3">

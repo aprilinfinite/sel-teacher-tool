@@ -6,6 +6,24 @@ export function isValidStatus(s: string): s is ResourceStatus {
   return VALID_STATUSES.includes(s as ResourceStatus);
 }
 
+export const RESOURCE_TYPE_OPTIONS = [
+  'Printable',
+  'Worksheet',
+  'Poster',
+  'Visual Support',
+  'Checklist',
+  'Routine',
+  'Lesson',
+  'Activity',
+  'Script',
+  'Guide',
+  'Reflection',
+  'Assessment',
+  'Toolkit',
+  'Template',
+  'Other',
+] as const;
+
 /** UI-friendly resource model for the admin list. */
 export interface ResourceItem {
   id: number;
@@ -17,7 +35,21 @@ export interface ResourceItem {
   featured: boolean;
   downloadCount: number;
   status: ResourceStatus;
+  displayOrder: number;
   createdAt: string;
+  updatedAt: string;
+  productCount: number;
+  shortDescription: string | null;
+  resourceDescription: string | null;
+  tags: string | null;
+  timeNeeded: string | null;
+  materialsNeeded: string | null;
+  filePath: string | null;
+  thumbnailPath: string | null;
+  thumbnailAlt: string | null;
+  resourceType: string | null;
+  createdBy: string | null;
+  updatedBy: string | null;
 }
 
 /** Query parameters sent from the UI to the API. */
@@ -27,6 +59,7 @@ export interface ResourceQueryParams {
   gradeLevel: string;
   resourceFormat: string;
   featured: string; // '' | 'true' | 'false'
+  status: string; // '' | 'draft' | 'published' | 'archived'
   sort: string;
   page: number;
   pageSize: number;
@@ -53,6 +86,7 @@ export const DEFAULT_QUERY: ResourceQueryParams = {
   gradeLevel: '',
   resourceFormat: '',
   featured: '',
+  status: '',
   sort: 'created_at_desc',
   page: 1,
   pageSize: 10,
@@ -66,3 +100,4 @@ export const SORT_OPTIONS = [
   { value: 'title_desc', label: 'Title Z–A' },
   { value: 'downloads_desc', label: 'Most Downloaded' },
 ] as const;
+
