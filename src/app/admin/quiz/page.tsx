@@ -1,3 +1,9 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Quiz Results | Admin | SEL Teacher Tools',
+};
+
 export default function QuizPage() {
   return (
     <div className="space-y-6">

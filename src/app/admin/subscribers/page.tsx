@@ -1,3 +1,9 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Subscribers | Admin | SEL Teacher Tools',
+};
+
 export default function SubscribersPage() {
   return (
     <div className="space-y-6">

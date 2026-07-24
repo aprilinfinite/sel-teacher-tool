@@ -3,7 +3,9 @@ import AdminHeader from '@/components/admin/AdminHeader';
 import DashboardProvider from '@/components/admin/DashboardProvider';
 
 export const metadata = {
-  title: 'Admin Dashboard | SEL Teacher Tools',
+  title: {
+    absolute: 'Admin Dashboard | SEL Teacher Tools',
+  },
   robots: 'noindex, nofollow',
 };
 

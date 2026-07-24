@@ -6,7 +6,10 @@ import Footer from '@/components/Footer';
 import Providers from '@/components/shared/Providers';
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard | SEL Teacher Tools version 2 test',
+  title: {
+    default: 'SEL Teacher Tools',
+    template: '%s | SEL Teacher Tools',
+  },
   description: 'Real support for real classroom moments.',
 };
 

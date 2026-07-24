@@ -1,3 +1,9 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Blog Posts | Admin | SEL Teacher Tools',
+};
+
 export default function BlogPage() {
   return (
     <div className="space-y-6">

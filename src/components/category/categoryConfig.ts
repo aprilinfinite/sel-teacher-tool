@@ -81,7 +81,7 @@ export const categoryConfigs: Record<string, CategoryConfig> = {
     articleSectionHeading: 'Practical reads for supportive routines and calm classrooms.',
     featFilters: preventFilters,
     metadata: {
-      title: 'Prevent | Proactive Classroom Supports | SEL Teacher Tools',
+      title: 'Prevent | Proactive Classroom Supports',
       description:
         'Proactive SEL tools for teachers: morning check-ins, routines, visuals, community builders, emotional vocabulary, and sensory-friendly structure.',
     },
@@ -102,7 +102,7 @@ export const categoryConfigs: Record<string, CategoryConfig> = {
     articleSectionHeading: 'Practical reads for supportive routines and calm classrooms.',
     featFilters: respondFilters,
     metadata: {
-      title: 'Respond | De-escalate in the Moment | SEL Teacher Tools',
+      title: 'Respond | De-escalate in the Moment',
       description:
         'In-the-moment support: de-escalation scripts, calm-down tools, conflict support, anxiety support, and classroom reset strategies.',
     },
@@ -123,7 +123,7 @@ export const categoryConfigs: Record<string, CategoryConfig> = {
     articleSectionHeading: 'Practical reads for supportive routines and calm classrooms.',
     featFilters: recoverFilters,
     metadata: {
-      title: 'Recover | Repair After a Hard Moment | SEL Teacher Tools',
+      title: 'Recover | Repair After a Hard Moment',
       description:
         'Repair and re-entry: reflection sheets, restorative questions, re-entry plans, repair conversations, and processing tools for students.',
     },
@@ -144,7 +144,7 @@ export const categoryConfigs: Record<string, CategoryConfig> = {
     articleSectionHeading: 'Practical reads for supportive routines and calm classrooms.',
     featFilters: teacherSupportFilters,
     metadata: {
-      title: 'Teacher Support | Take Care of Yourself, Too | SEL Teacher Tools',
+      title: 'Teacher Support | Take Care of Yourself, Too',
       description:
         'Adult SEL and burnout prevention: emotional regulation tools for educators, stress supports, boundary scripts, reflection journals, and morning routines.',
     },

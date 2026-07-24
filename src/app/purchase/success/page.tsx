@@ -1,9 +1,14 @@
+import type { Metadata } from 'next';
 import { getStripe } from '@/lib/stripe';
 import { getPurchaseBySessionId } from '@/services/purchases/purchaseRepository';
 import Link from 'next/link';
 import { DownloadButton } from './DownloadButton';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Purchase Successful',
+};
 
 type Props = {
   searchParams: Promise<{ session_id?: string }>;
